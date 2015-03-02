@@ -1,0 +1,29 @@
+{
+  "name": "sig.event",
+  "version": "0.1.0",
+  "description": "turn event listeners into sig signals",
+  "main": "sig.event.js",
+  "scripts": {
+    "test": "mocha -R spec sig.event.test.js"
+  },
+  "author": "justinvdm",
+  "license": "MIT",
+  "dependencies": {
+    "sig-js": "^0.1.0"
+  },
+  "devDependencies": {
+    "d3": "^3.5.5",
+    "drainpipe": "^0.1.0",
+    "jquery": "^2.1.3",
+    "jsdom": "^4.0.1",
+    "mocha": "^2.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/justinvdm/sig.event.git"
+  },
+  "keywords": [
+    "sig",
+    "event"
+  ]
+}
