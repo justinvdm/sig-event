@@ -4,7 +4,7 @@
   else if (typeof exports === 'object')
     module.exports = factory(require('sig-js'))
   else
-    root.sig.event = factory(root.sig);
+    root.sig.event = factory(root.sig)
 }(this, function(sig) {
   var setup = sig.setup,
       teardown = sig.teardown,
