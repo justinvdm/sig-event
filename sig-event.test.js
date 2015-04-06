@@ -6,7 +6,7 @@ var assert = require('assert'),
     $ = require('jquery'),
     d3 = require('d3'),
     EventEmitter = require('events').EventEmitter,
-    event = require('./sig.event')
+    event = require('./sig-event')
 
 
 function capture(s) {

@@ -1,10 +1,10 @@
 {
-  "name": "sig.event",
+  "name": "sig-event",
   "version": "0.1.0",
   "description": "turn event listeners into sig signals",
-  "main": "sig.event.js",
+  "main": "sig-event.js",
   "scripts": {
-    "test": "mocha -R spec sig.event.test.js"
+    "test": "mocha -R spec sig-event.test.js"
   },
   "author": "justinvdm",
   "license": "MIT",
