@@ -9,7 +9,7 @@
   "author": "justinvdm",
   "license": "MIT",
   "dependencies": {
-    "sig-js": "^0.1.0"
+    "sig-js": "~0.4.3"
   },
   "devDependencies": {
     "d3": "^3.5.5",

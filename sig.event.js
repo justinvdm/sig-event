@@ -6,12 +6,6 @@
   else
     root.sig.event = factory(root.sig)
 }(this, function(sig) {
-  var setup = sig.setup,
-      teardown = sig.teardown,
-      put = sig.put,
-      protoSlice = Array.prototype.slice
-
-
   var currentIdNum = 0
   var types = {}
   var typePriority = [
@@ -25,24 +19,21 @@
 
   function event() {
     var s = sig()
-    var args = [listener].concat(slice(arguments))
+    var args = [listener].concat(sig.slice(arguments))
     listener.id = event.nextId()
 
     var type = apply(inferType, args)
     if (type === null) throw new Error("No listener type found")
+    apply(type.on, args)
 
-    setup(s, function() {
-      apply(type.on, args)
-    })
-
-    teardown(s, function() {
+    s.teardown(function() {
       apply(type.off, args)
     })
 
     return s
 
     function listener(e) {
-      put(s, e)
+      s.put(e)
     }
   }
 
@@ -176,11 +167,6 @@
 
   function apply(fn, args) {
     return fn.apply(this, args)
-  }
-
-
-  function slice(arr, start, end) {
-    return protoSlice.call(arr, start, end)
   }
 
 

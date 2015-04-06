@@ -8,17 +8,14 @@ var assert = require('assert'),
     d3 = require('d3'),
     EventEmitter = require('events').EventEmitter,
     event = require('./sig.event'),
-    nextId = event.nextId,
-    then = sig.then,
-    reset = sig.reset
+    nextId = event.nextId
 
 
 function capture(s) {
   var values = []
 
-  then(s, function(x) {
-    values.push(x)
-  })
+  s.each(function(x) { values.push(x) })
+   .done()
 
   return values
 }
@@ -56,7 +53,7 @@ describe("sig.event", function() {
     emitter.emit('foo', {b: 21})
     assert.deepEqual(results, [{a: 23}, {b: 21}])
 
-    reset(s)
+    s.end()
     emitter.emit('foo', {b: 20})
     assert.deepEqual(results, [{a: 23}, {b: 21}])
   })
@@ -76,7 +73,7 @@ describe("sig.event", function() {
     assert.deepEqual(results, [e1, e2])
 
     var e3 = $.Event('roar')
-    reset(s)
+    s.end()
     $el.trigger(e3)
     assert.deepEqual(results, [e1, e2])
   })
@@ -95,7 +92,7 @@ describe("sig.event", function() {
     selection.on('roar.23')({b: 21})
     assert.deepEqual(results, [{a: 23}, {b: 21}])
 
-    reset(s)
+    s.end()
     assert(typeof selection.on('roar.23') == 'undefined')
   })
 
@@ -111,7 +108,7 @@ describe("sig.event", function() {
     dispatcher.roar({b: 21})
     assert.deepEqual(results, [{a: 23}, {b: 21}])
 
-    reset(s)
+    s.end()
     assert.deepEqual(results, [{a: 23}, {b: 21}])
   })
 
@@ -129,7 +126,7 @@ describe("sig.event", function() {
     assert.deepEqual(results, [e1, e2])
 
     var e3 = createEvent('roar')
-    reset(s)
+    s.end()
     el.dispatchEvent(e3)
     assert.deepEqual(results, [e1, e2])
   })
