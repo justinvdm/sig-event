@@ -4,11 +4,9 @@ global.window = document.defaultView
 
 var assert = require('assert'),
     $ = require('jquery'),
-    sig = require('sig-js'),
     d3 = require('d3'),
     EventEmitter = require('events').EventEmitter,
-    event = require('./sig.event'),
-    nextId = event.nextId
+    event = require('./sig.event')
 
 
 function capture(s) {
@@ -38,7 +36,6 @@ describe("sig.event", function() {
 
   afterEach(function() {
     document.body.removeChild(el)
-    event.nextId = nextId
   })
 
   it("should support node.js event emitters", function() {
@@ -79,21 +76,19 @@ describe("sig.event", function() {
   })
 
   it("should support d3 selections", function() {
-    event.nextId = function() { return 23 }
-
     var selection = d3.select(el)
     var s = event(selection, 'roar')
     var results = capture(s)
 
     assert(!results.length)
-    selection.on('roar.23')({a: 23})
+    selection.on('roar')({a: 23})
     assert.deepEqual(results, [{a: 23}])
 
-    selection.on('roar.23')({b: 21})
+    selection.on('roar')({b: 21})
     assert.deepEqual(results, [{a: 23}, {b: 21}])
 
     s.end()
-    assert(typeof selection.on('roar.23') == 'undefined')
+    assert(typeof selection.on('roar') == 'undefined')
   })
 
   it("should support d3 dispatchers", function() {

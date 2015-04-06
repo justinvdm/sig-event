@@ -6,7 +6,6 @@
   else
     root.sig.event = factory(root.sig)
 }(this, function(sig) {
-  var currentIdNum = 0
   var types = {}
   var typePriority = [
     'dom',
@@ -20,7 +19,6 @@
   function event() {
     var s = sig()
     var args = [listener].concat(sig.slice(arguments))
-    listener.id = event.nextId()
 
     var type = apply(inferType, args)
     if (type === null) throw new Error("No listener type found")
@@ -121,12 +119,12 @@
 
 
   types.d3Dispatcher.on = function(listener, obj, eventName) {
-    obj.on(d3EventKey(eventName, listener.id), listener)
+    obj.on(eventName, listener, listener)
   }
 
 
   types.d3Dispatcher.off = function(listener, obj, eventName) {
-    obj.on(d3EventKey(eventName, listener.id), null)
+    obj.on(eventName, listener, null)
   }
 
 
@@ -141,17 +139,12 @@
 
 
   types.d3Selection.on = function(listener, obj, eventName, useCapture) {
-    obj.on(d3EventKey(eventName, listener.id), listener, useCapture)
+    obj.on(eventName, listener, useCapture)
   }
 
 
   types.d3Selection.off = function(listener, obj, eventName) {
-    obj.on(d3EventKey(eventName, listener.id), null)
-  }
-
-
-  function d3EventKey(eventName, id) {
-    return [eventName, id].join('.')
+    obj.on(eventName, null)
   }
 
 
@@ -160,16 +153,10 @@
   }
 
 
-  function nextId() {
-    return 'sig-event' + currentIdNum++
-  }
-
-
   function apply(fn, args) {
     return fn.apply(this, args)
   }
 
 
-  event.nextId = nextId
   return event
 }));
