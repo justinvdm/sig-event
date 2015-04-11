@@ -6,6 +6,8 @@
   else
     root.sig.event = factory(root.sig)
 }(this, function(sig) {
+  var sigEvent = sig.event
+
   var types = {}
   var typePriority = [
     'dom',
@@ -16,19 +18,34 @@
   ]
 
 
-  function event() {
+  function event(obj) {
+    if (sig.isSig(obj)) return sigEvent(obj)
+
     var s = sig()
     var args = [listener].concat(sig.slice(arguments))
 
     var type = apply(inferType, args)
     if (type === null) throw new Error("No listener type found")
-    apply(type.on, args)
 
-    s.teardown(function() {
-      apply(type.off, args)
-    })
+    setup()
+
+    s.event('reconnect')
+     .each(setup)
+     .done()
+
+    s.event('disconnect')
+     .each(teardown)
+     .done()
 
     return s
+
+    function setup() {
+      apply(type.on, args)
+    }
+
+    function teardown() {
+      apply(type.off, args)
+    }
 
     function listener(e) {
       s.put(e)
