@@ -9,6 +9,7 @@
   var sigEvent = sig.event
 
   var types = {}
+
   var typePriority = [
     'dom',
     'jquery',
@@ -19,7 +20,7 @@
 
 
   function event(obj) {
-    if (sig.isSig(obj)) return sigEvent(obj)
+    if (sig.isSig(obj)) return sigEvent.apply(null, arguments)
 
     var s = sig()
     var args = [listener].concat(sig.slice(arguments))

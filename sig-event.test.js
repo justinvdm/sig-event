@@ -5,6 +5,7 @@ global.window = document.defaultView
 var assert = require('assert'),
     $ = require('jquery'),
     d3 = require('d3'),
+    sig = require('sig-js'),
     EventEmitter = require('events').EventEmitter,
     event = require('./sig-event')
 
@@ -36,6 +37,20 @@ describe("sig.event", function() {
 
   afterEach(function() {
     document.body.removeChild(el)
+  })
+
+  it("should support sig event listening", function() {
+    var s = sig()
+    var results = event(s, 'foo').call(capture)
+
+    sig._emit_(s, 'foo', 21)
+    assert.deepEqual(results, [21])
+
+    sig._emit_(s, 'foo', 22)
+    assert.deepEqual(results, [21, 22])
+
+    sig._emit_(s, 'foo', 23)
+    assert.deepEqual(results, [21, 22, 23])
   })
 
   it("should support node.js event emitters", function() {
