@@ -2,7 +2,7 @@
   "name": "sig-event",
   "main": "sig.js",
   "description": "turn event listeners into sig signals",
-  "homepage": "https://github.com/justinvdm/sig.event",
+  "homepage": "https://github.com/justinvdm/sig-event",
   "authors": ["justinvdm <justinvdm.0.1.0@gmail.com>"],
   "license": "MIT",
   "dependencies": {
